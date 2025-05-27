@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>Deutschland­ticket suchen</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <style>
+    body {
+      background: #87CEFA;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    form {
+      background: #fff;
+      width: 90%;
+      max-width: 500px;
+      border: 1px solid #0000CD ;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+
+    form h2 {
+      margin: 0;
+      padding: 1rem 1.5rem;            /* внутренние отступы */
+      background: linear-gradient(
+        to right,
+        #0000CD ,
+        #0000CD
+      );
+      color: #fff;
+      font-size: 1.3rem;
+      font-weight: normal;
+      border-top-left-radius: 12px;    /* скругляем только верхние углы */
+      border-top-right-radius: 12px;
+    }
+
+    form input {
+      width: calc(100% - 2rem);
+      margin: 1.5rem auto;
+      padding: 0.75rem 1rem;
+      font-size: 1rem;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      outline: none;
+      display: block;
+    }
+
+    form button {
+      margin-bottom: 1.5rem;
+      padding: 0.75rem 2rem;
+      background: #0000CD ;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    form button:hover {
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body>
+  <form action="{% url 'tickets:ticket' %}" method="get">
+    <h2>Deutschland­ticket</h2>
+    <input
+      type="text"
+      name="q"
+      placeholder="Ticketnummer eingeben"
+      required
+    />
+    <button type="submit">Suchen</button>
+  </form>
+</body>
+</html>
