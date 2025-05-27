@@ -4,9 +4,16 @@ from pathlib import Path
 # BASE_DIR указывает на корень проекта (где manage.py)
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = 'ваш-секретный-ключ'
-DEBUG = True
-ALLOWED_HOSTS = []
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'ваш-секретный-ключ')
+
+DEBUG = False  # в продакшене всегда False
+
+# Добавляем ваш Railway-домен (или список доменов) чтобы убрать DisallowedHost
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'test-production-e61f.up.railway.app',  # ваш Railway URL
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -16,11 +23,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'tickets',            # ← наше приложение
+    'tickets',  # ← ваше приложение
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # подключаем WhiteNoise сразу после SecurityMiddleware
+    'whitenoise.middleware.WhiteNoiseMiddleware',  
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -60,7 +70,7 @@ DATABASES = {
 
 
 AUTH_PASSWORD_VALIDATORS = [
-    # ... можете оставить дефолтные валидаторы
+    # ... дефолтные валидаторы
 ]
 
 LANGUAGE_CODE = 'de-de'
@@ -71,14 +81,16 @@ USE_TZ = True
 
 # Статика (css, js, лого)
 STATIC_URL = '/static/'
+# В продакшене отдаем через WhiteNoise
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, 'tickets', 'static'),
+    BASE_DIR / 'tickets' / 'static',
 ]
-# STATIC_ROOT = os.path.join(BASE_DIR, 'static_root')  # для продакшена
+
 
 # Медиа (загружаемые фото и QR)
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = BASE_DIR / 'media'
 
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
